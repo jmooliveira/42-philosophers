@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:23 by jemorais          #+#    #+#             */
-/*   Updated: 2025/04/23 19:55:00 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/04/23 20:42:16 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ bool	check_args(char **argv)
 	return (true);
 }
 
-bool	config_args(t_config *config, char **argv)
+bool	init_args(t_config *config, char **argv)
 {
 	config->number_philos = ft_atol(argv[1]);
 	config->time_to_die = ft_atol(argv[2]);
@@ -66,4 +66,10 @@ bool	config_args(t_config *config, char **argv)
 	else
 		config->number_meals = -1;
 	return (true);
+}
+
+
+t_philo	*init_philo(t_philo *philo)
+{
+
 }

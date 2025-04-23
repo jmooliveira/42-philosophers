@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:38:57 by jemorais          #+#    #+#             */
-/*   Updated: 2025/04/23 19:53:16 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/04/23 20:41:50 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,26 @@ typedef struct s_config
 	int	number_meals;
 }	t_config;
 
-// numbers each meal == -1 se não tiver argumento.
+ typedef struct s_philo
+ {
+	int	id;
+	int	left_fork;
+	int	right_fork;
+	t_config *config;
+ }	t_philo;
 
+// validate.c
 bool	check_args(char **argv);
-bool	config_args(t_config *config, char **argv);
+bool	init_args(t_config *config, char **argv);
 void	validate(int argc, char **argv);
+t_philo	*init_philo(t_philo *philo);
 
+// utils.c
 bool	ft_isdigit(char c);
 long	ft_atol(char *argv);
 void	*ft_calloc(size_t nmemb, size_t size);
 
+// free.c
 void	free_and_close(t_config *config);
 
 #endif

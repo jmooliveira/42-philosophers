@@ -1,7 +1,7 @@
 NAME	=	philo
 
 CC		=	cc
-CFLAGS	=	-Wall -Werror -Wextra -g3
+CFLAGS	=	-Wall -Werror -Wextra
 
 SRC_DIR	=	philos
 OBJ_DIR	=	objcs
