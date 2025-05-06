@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate.c                                         :+:      :+:    :+:   */
+/*   validate_and_init.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:23 by jemorais          #+#    #+#             */
-/*   Updated: 2025/04/23 20:42:16 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:20:49 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,40 @@ bool	check_args(char **argv)
 	return (true);
 }
 
-bool	init_args(t_config *config, char **argv)
+bool	init_args(t_table *table, char **argv)
 {
-	config->number_philos = ft_atol(argv[1]);
-	config->time_to_die = ft_atol(argv[2]);
-	config->time_to_eat = ft_atol(argv[3]);
-	config->time_to_sleep = ft_atol(argv[4]);
+	table->number_philos = ft_atol(argv[1]);
+	table->time_to_die = ft_atol(argv[2]);
+	table->time_to_eat = ft_atol(argv[3]);
+	table->time_to_sleep = ft_atol(argv[4]);
 	if (argv[5])
-		config->number_meals = ft_atol(argv[5]);
+		table->number_meals = ft_atol(argv[5]);
 	else
-		config->number_meals = -1;
+		table->number_meals = -1;
 	return (true);
 }
 
+bool	init_table(t_table *table)
+{
+	int	i;
+
+	table->forks = malloc(sizeof(pthread_mutex_t) *table->number_philos);
+	if(!table->forks)
+		return (false);
+	i = 0;
+	while (i < table->number_philos)
+	{
+		if (pthread_mutex_init(&table->forks[i], NULL) != 0)
+				return (false);
+			i++;
+	}
+	if (pthread_mutex_init(&table->print_lock, NULL) != 0)
+		return (false);
+	return (true);
+}
 
 t_philo	*init_philo(t_philo *philo)
 {
-
+	(void) *philo;
+	return (philo);
 }

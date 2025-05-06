@@ -7,10 +7,11 @@ SRC_DIR	=	philos
 OBJ_DIR	=	objcs
 
 SRCS	=	$(SRC_DIR)/main.c \
-			$(SRC_DIR)/validate.c \
+			$(SRC_DIR)/validate_and_init.c \
 			$(SRC_DIR)/utils.c \
 			$(SRC_DIR)/philo.c \
 			$(SRC_DIR)/free.c \
+			$(SRC_DIR)/monitor.c \
 
 OBJS	=	$(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

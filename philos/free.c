@@ -6,14 +6,14 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 19:45:41 by jemorais          #+#    #+#             */
-/*   Updated: 2025/04/23 19:56:01 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:58:24 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	free_and_close(t_config *config)
+void	free_and_close(t_table *table)
 {
-	free(config);
+	free(table);
 	exit(0);
 }
