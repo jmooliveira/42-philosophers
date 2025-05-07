@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:38:57 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/07 17:12:33 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/07 18:05:16 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ typedef struct s_table
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				number_meals;
+	long			start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
-	long			start_time;
 }	t_table;
 
 // validate_and_init.c
@@ -61,6 +61,10 @@ bool	init_philo(t_philo **philos, t_table *table);
 bool	ft_isdigit(char c);
 long	ft_atol(char *argv);
 void	*ft_calloc(size_t nmemb, size_t size);
+
+// philo.c
+
+// monitor.c
 
 // free.c
 void	free_and_close(t_table *table, t_philo *philos);

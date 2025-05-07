@@ -34,6 +34,9 @@ fclean: clean
 
 re: fclean all
 
-# val: valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-origins=yes --track-fds=yes
+ARGS ?= 5 800 200 200 7
+
+val:
+	@valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-origins=yes --track-fds=yes ./$(NAME) $(ARGS)
 
 .PHONY: all clean fclean re

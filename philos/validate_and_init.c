@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:23 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/07 17:02:16 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/07 18:18:19 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ bool	validate_and_init_args(int argc, char **argv)
 
 void	init_table(t_table *table, char **argv)
 {
+	struct timeval	tv;
+
 	table->number_philos = ft_atol(argv[1]);
 	table->time_to_die = ft_atol(argv[2]);
 	table->time_to_eat = ft_atol(argv[3]);
@@ -66,6 +68,8 @@ void	init_table(t_table *table, char **argv)
 		table->number_meals = ft_atol(argv[5]);
 	else
 		table->number_meals = -1;
+	gettimeofday(&tv, NULL);
+	table->start_time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 }
 
 bool	init_forks(t_table *table)
