@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:38:57 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/07 18:05:16 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/09 17:39:48 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,14 @@ long	ft_atol(char *argv);
 void	*ft_calloc(size_t nmemb, size_t size);
 
 // philo.c
+void	*philo_routine(void *arg);
+bool	start_simulation(t_philo *philos, t_table *table);
 
 // monitor.c
+void	*monitor_philos(void *arg);
+
+// time.c?
+long	get_time_ms(void);
 
 // free.c
 void	free_and_close(t_table *table, t_philo *philos);
