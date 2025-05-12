@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:38:57 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/09 17:39:48 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:28:17 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdbool.h>
 # include <limits.h>
 # include <stdlib.h>
+# include <unistd.h>
 # include <pthread.h>
 # include <sys/time.h>
 
@@ -63,14 +64,13 @@ long	ft_atol(char *argv);
 void	*ft_calloc(size_t nmemb, size_t size);
 
 // philo.c
-void	*philo_routine(void *arg);
-bool	start_simulation(t_philo *philos, t_table *table);
+bool	start_threads(t_philo *philos, t_table *table);
 
-// monitor.c
-void	*monitor_philos(void *arg);
-
-// time.c?
+// routine.c
 long	get_time_ms(void);
+void	print_action(t_philo *philo, char *msg);
+void	eat(t_philo *philo);
+void	*philo_routine(void *arg);
 
 // free.c
 void	free_and_close(t_table *table, t_philo *philos);

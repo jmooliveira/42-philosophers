@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:23 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/09 16:31:20 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:26:37 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ bool	validate_and_init_args(int argc, char **argv)
 
 void	init_table(t_table *table, char **argv)
 {
-		table->number_philos = ft_atol(argv[1]);
+	table->number_philos = ft_atol(argv[1]);
 	table->time_to_die = ft_atol(argv[2]);
 	table->time_to_eat = ft_atol(argv[3]);
 	table->time_to_sleep = ft_atol(argv[4]);
@@ -107,12 +107,4 @@ bool	init_philo(t_philo **philos, t_table *table)
 	}
 	table->start_time = get_time_ms();
 	return (true);
-}
-
-long	get_time_ms(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }

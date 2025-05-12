@@ -12,6 +12,7 @@ SRCS	=	$(SRC_DIR)/main.c \
 			$(SRC_DIR)/philo.c \
 			$(SRC_DIR)/free.c \
 			$(SRC_DIR)/monitor.c \
+			$(SRC_DIR)/routine.c \
 
 OBJS	=	$(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
