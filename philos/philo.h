@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:38:57 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/12 15:28:17 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:50:57 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,13 @@ typedef struct s_table
 	long			start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
+	bool			stop;
+	pthread_mutex_t	stop_mutex;
 }	t_table;
 
 // validate_and_init.c
 bool	check_args(char **argv);
-bool	validate_and_init_args(int argc, char **argv);
+bool	validate_args(int argc, char **argv);
 void	init_table(t_table *table, char **argv);
 bool	init_forks(t_table *table);
 bool	init_philo(t_philo **philos, t_table *table);
@@ -65,6 +67,9 @@ void	*ft_calloc(size_t nmemb, size_t size);
 
 // philo.c
 bool	start_threads(t_philo *philos, t_table *table);
+
+// monitor.c
+void	*monitor(void *arg);
 
 // routine.c
 long	get_time_ms(void);

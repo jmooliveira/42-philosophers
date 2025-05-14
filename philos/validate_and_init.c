@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:23 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/12 13:26:37 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:54:23 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	check_args(char **argv)
 	return (true);
 }
 
-bool	validate_and_init_args(int argc, char **argv)
+bool	validate_args(int argc, char **argv)
 {
 	if (argc != 5 && argc != 6)
 	{
@@ -66,6 +66,8 @@ void	init_table(t_table *table, char **argv)
 		table->number_meals = ft_atol(argv[5]);
 	else
 		table->number_meals = -1;
+	pthread_mutex_init(&table->print_lock, NULL);
+	pthread_mutex_init(&table->stop_mutex, NULL);
 }
 
 bool	init_forks(t_table *table)

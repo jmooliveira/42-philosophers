@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:26:00 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/12 15:38:43 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:55:00 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
 		usleep (1000);
-	while (42)
+	while (!check_stop_condition(philo))
 	{
+		take_forks(philo);
 		eat(philo);
-		print_action(philo, "is sleeping");
-		usleep(philo->table->time_to_sleep * 1000);
-		print_action(philo, "is thinking");
+		drop_forks(philo);
+		sleep_think(philo);
 	}
 	return (NULL);
 }
