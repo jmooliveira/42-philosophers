@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:38:57 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/14 15:50:57 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:39:56 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,17 @@ bool	start_threads(t_philo *philos, t_table *table);
 
 // monitor.c
 void	*monitor(void *arg);
+void	died(t_table *table, t_philo *philos, long time_now, int i);
+bool	check_stop_condition(t_philo *philo);
+void	print_action(t_philo *philo, char *msg);
+long	get_time_ms(void);
 
 // routine.c
-long	get_time_ms(void);
-void	print_action(t_philo *philo, char *msg);
-void	eat(t_philo *philo);
 void	*philo_routine(void *arg);
+void	take_forks(t_philo *philo);
+void	eat(t_philo *philo);
+void	drop_forks(t_philo *philo);
+void	sleep_think(t_philo *philo);
 
 // free.c
 void	free_and_close(t_table *table, t_philo *philos);
