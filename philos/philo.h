@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:38:57 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/14 17:39:56 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:25:00 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_philo
 	int				id;
 	int				meals_eaten;
 	long			last_meal;
+	pthread_mutex_t	meal_mutex;
 	pthread_t		thread_id;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
@@ -51,7 +52,8 @@ typedef struct s_table
 	pthread_mutex_t	print_lock;
 	bool			stop;
 	pthread_mutex_t	stop_mutex;
-}	t_table;
+	t_philo	*philos;
+} t_table;
 
 // validate_and_init.c
 bool	check_args(char **argv);

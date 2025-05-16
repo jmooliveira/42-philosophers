@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:11:18 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/14 17:34:04 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:46:39 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ long	get_time_ms(void)
 
 void	print_action(t_philo *philo, char *msg)
 {
+	if (check_stop_condition(philo))
+		return;
 	pthread_mutex_lock(&philo->table->print_lock);
 	printf("%ld %d %s\n", get_time_ms() - philo->table->start_time,
 		philo->id, msg);
@@ -56,6 +58,7 @@ void	*monitor(void *arg)
 	t_table	*table;
 	int		i;
 	long	time_now;
+	// long	last_meal;
 
 	philos = (t_philo *)arg;
 	table = philos[0].table;

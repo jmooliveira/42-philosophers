@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:04 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/14 17:59:36 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:06:38 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ int	main(int argc, char **argv)
 	pthread_create(&monitor_thread, NULL, monitor, philos);
 	pthread_join(monitor_thread, NULL);
 	join_thread(table, philos);
-	pthread_join(monitor_thread, NULL);
 	free_and_close(table, philos);
+	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:23 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/14 15:54:23 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:25:07 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ bool	init_forks(t_table *table)
 			return (false);
 		i++;
 	}
-	if (pthread_mutex_init(&table->print_lock, NULL) != 0)
-		return (false);
 	return (true);
 }
 
@@ -93,20 +91,23 @@ bool	init_philo(t_philo **philos, t_table *table)
 {
 	int	i;
 
-	*philos = ft_calloc(table->number_philos, sizeof(t_philo));
-	if (!philos)
+	table->philos = ft_calloc(table->number_philos, sizeof(t_philo));
+	if (!*philos)
 		return (false);
+	table->philos = *philos;
+	table->start_time = get_time_ms();
 	i = 0;
 	while (i < table->number_philos)
 	{
 		(*philos)[i].id = i + 1;
-		(*philos)[i].meals_eaten = 0;
-		(*philos)[i].last_meal = 0;
 		(*philos)[i].left_fork = &table->forks[i];
 		(*philos)[i].right_fork = &table->forks[(i + 1) % table->number_philos];
+		(*philos)[i].last_meal = table->start_time;
+		(*philos)[i].meals_eaten = 0;
 		(*philos)[i].table = table;
+		if (pthread_mutex_init(&(*philos)[i].meal_mutex, NULL) != 0)
+			return (false);
 		i++;
 	}
-	table->start_time = get_time_ms();
 	return (true);
 }

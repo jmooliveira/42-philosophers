@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   free_and_close.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 19:45:41 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/07 17:12:03 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:11:15 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,24 @@
 
 void	free_and_close(t_table *table, t_philo *philos)
 {
-	if (table->forks)
-		free(table->forks);
+	int	i;
+
+	if (table)
+	{
+		if (table->forks)
+		{
+			i = 0;
+			while (i < table->number_philos)
+			{
+				pthread_mutex_destroy(&table->forks[i]);
+				i++;
+			}
+			free(table->forks);
+		}
+		pthread_mutex_destroy(&table->print_lock);
+		pthread_mutex_destroy(&table->stop_mutex);
+		free(table);
+	}
 	if (philos)
 		free(philos);
-	free(table);
-	exit(0);
 }
