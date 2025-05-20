@@ -3,23 +3,23 @@ NAME	=	philo
 CC		=	cc
 CFLAGS	=	-Wall -Werror -Wextra
 
-SRC_DIR	=	philos
+# SRC_DIR	=	philo
 OBJ_DIR	=	objcs
 
-SRCS	=	$(SRC_DIR)/philo.c \
-			$(SRC_DIR)/validate_and_init.c \
-			$(SRC_DIR)/utils.c \
-			$(SRC_DIR)/free_and_close.c \
-			$(SRC_DIR)/monitor.c \
-			$(SRC_DIR)/routine.c \
+SRCS	=	philo.c \
+			validate_and_init.c \
+			utils.c \
+			free_and_close.c \
+			monitor.c \
+			routine.c \
 
-OBJS	=	$(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+OBJS	=	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 RM		=	rm -rf
 
 all: $(NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
@@ -34,7 +34,7 @@ fclean: clean
 
 re: fclean all
 
-ARGS ?= 5 800 200 200
+# ARGS ?= 5 800 200 200
 
 val:
 	@valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-origins=yes --track-fds=yes ./$(NAME) $(ARGS)

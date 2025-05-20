@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:23 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/16 17:25:07 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:40:53 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,14 @@ bool	init_forks(t_table *table)
 	return (true);
 }
 
-bool	init_philo(t_philo **philos, t_table *table)
+bool	init_philos(t_philo **philos, t_table *table)
 {
 	int	i;
 
 	table->philos = ft_calloc(table->number_philos, sizeof(t_philo));
-	if (!*philos)
+	if (!table->philos)
 		return (false);
-	table->philos = *philos;
+	*philos = table->philos;
 	table->start_time = get_time_ms();
 	i = 0;
 	while (i < table->number_philos)
@@ -105,8 +105,7 @@ bool	init_philo(t_philo **philos, t_table *table)
 		(*philos)[i].last_meal = table->start_time;
 		(*philos)[i].meals_eaten = 0;
 		(*philos)[i].table = table;
-		if (pthread_mutex_init(&(*philos)[i].meal_mutex, NULL) != 0)
-			return (false);
+		pthread_mutex_init(&table->philos[i].meal_mutex, NULL);
 		i++;
 	}
 	return (true);

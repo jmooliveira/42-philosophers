@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:26:00 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/16 16:58:20 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:48:19 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,20 @@ void	eat(t_philo *philo)
 
 void	drop_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
-	{
+	// if (philo->id % 2 == 0)
+	// {
 		pthread_mutex_unlock(philo->left_fork);
+		print_action(philo, "has dropped right fork");
 		pthread_mutex_unlock(philo->right_fork);
-	}
-	else
-	{
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(philo->left_fork);
-	}
+		print_action(philo, "has dropped left fork");
+	// }
+	// else
+	// {
+	// 	pthread_mutex_unlock(philo->right_fork);
+	// 	print_action(philo, "has dropped right fork");
+	// 	pthread_mutex_unlock(philo->left_fork);
+	// 	print_action(philo, "has dropped left fork");
+	// }
 }
 
 void	sleep_think(t_philo *philo)
@@ -80,7 +84,11 @@ void	*philo_routine(void *arg)
 	while (!check_stop_condition(philo))
 	{
 		take_forks(philo);
+		if (check_stop_condition(philo))
+			break;
 		eat(philo);
+		if (check_stop_condition(philo))
+			break;
 		drop_forks(philo);
 		sleep_think(philo);
 	}

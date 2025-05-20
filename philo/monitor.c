@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:11:18 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/16 16:46:39 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:58:20 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@ long	get_time_ms(void)
 
 void	print_action(t_philo *philo, char *msg)
 {
-	if (check_stop_condition(philo))
-		return;
 	pthread_mutex_lock(&philo->table->print_lock);
+	if (check_stop_condition(philo))
+	{
+		pthread_mutex_unlock(&philo->table->print_lock);
+		return ;
+	}
 	printf("%ld %d %s\n", get_time_ms() - philo->table->start_time,
 		philo->id, msg);
 	pthread_mutex_unlock(&philo->table->print_lock);
@@ -58,22 +61,35 @@ void	*monitor(void *arg)
 	t_table	*table;
 	int		i;
 	long	time_now;
-	// long	last_meal;
+	int		count;
 
 	philos = (t_philo *)arg;
 	table = philos[0].table;
-	while (42)
+	while (!check_stop_condition(&philos[0]))
 	{
 		i = 0;
+		count = 0;
 		while (i < table->number_philos)
 		{
 			time_now = get_time_ms();
+			pthread_mutex_lock(&philos[i].meal_mutex);
 			if ((time_now - philos[i].last_meal > table->time_to_die))
 			{
+				pthread_mutex_unlock(&philos[i].meal_mutex);
 				died(table, philos, time_now, i);
 				return (NULL);
 			}
+			if (table->number_meals > 0 && philos[i].meals_eaten >= table->number_meals)
+				count++;
+			pthread_mutex_unlock(&philos[i].meal_mutex);
 			i++;
+		}
+		if (table->number_meals > 0 && count == table->number_philos)
+		{
+			pthread_mutex_lock(&table->stop_mutex);
+			table->stop = true;
+			pthread_mutex_unlock(&table->stop_mutex);
+			return (NULL);
 		}
 		usleep(1000);
 	}

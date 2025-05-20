@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:04 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/16 16:06:38 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:41:08 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int	main(int argc, char **argv)
 		exit (EXIT_ERROR);
 	philos = NULL;
 	init_table(table, argv);
-	if (!init_forks(table) || !init_philo(&philos, table))
+	if (!init_forks(table) || !init_philos(&philos, table))
 	{
-		printf("Init Error");
+		printf("Init Error\n");
 		free_and_close(table, philos);
 		exit (INIT_ERROR);
 	}

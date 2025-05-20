@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:38:57 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/16 17:25:00 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:49:38 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,21 @@ typedef struct s_table
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				number_meals;
 	long			start_time;
+	bool			stop;
+	int				number_meals;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
-	bool			stop;
 	pthread_mutex_t	stop_mutex;
-	t_philo	*philos;
-} t_table;
+	t_philo			*philos;
+}	t_table;
 
 // validate_and_init.c
 bool	check_args(char **argv);
 bool	validate_args(int argc, char **argv);
 void	init_table(t_table *table, char **argv);
 bool	init_forks(t_table *table);
-bool	init_philo(t_philo **philos, t_table *table);
+bool	init_philos(t_philo **philos, t_table *table);
 
 // utils.c
 bool	ft_isdigit(char c);
@@ -69,6 +69,7 @@ void	*ft_calloc(size_t nmemb, size_t size);
 
 // philo.c
 bool	start_threads(t_philo *philos, t_table *table);
+void	join_thread(t_table *table, t_philo *philos);
 
 // monitor.c
 void	*monitor(void *arg);
