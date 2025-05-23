@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:26:00 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/20 16:48:19 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/23 17:36:02 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ void	*philo_routine(void *arg)
 		print_action(philo, "died");
 		return (NULL);
 	}
-	if (philo->id % 2 == 0)
-		usleep (philo->table->time_to_eat * 500);
+	// if (philo->id % 2 == 0)
+	// 	usleep (philo->table->time_to_eat * 500);
 	while (!check_stop_condition(philo))
 	{
 		take_forks(philo);
