@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:11:18 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/20 16:58:20 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:46:06 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ bool	check_stop_condition(t_philo *philo)
 	pthread_mutex_lock(&philo->table->stop_mutex);
 	stop = philo->table->stop;
 	pthread_mutex_unlock(&philo->table->stop_mutex);
+	// pthread_mutex_lock(&philo->table->print_lock);
+	// printf("stopped %d\n", stop);
+	// pthread_mutex_unlock(&philo->table->print_lock);
 	return (stop);
 }
 
@@ -65,7 +68,7 @@ void	*monitor(void *arg)
 
 	philos = (t_philo *)arg;
 	table = philos[0].table;
-	while (!check_stop_condition(&philos[0]))
+	while (true)
 	{
 		i = 0;
 		count = 0;
@@ -77,6 +80,7 @@ void	*monitor(void *arg)
 			{
 				pthread_mutex_unlock(&philos[i].meal_mutex);
 				died(table, philos, time_now, i);
+				printf("died\n");
 				return (NULL);
 			}
 			if (table->number_meals > 0 && philos[i].meals_eaten >= table->number_meals)
@@ -91,7 +95,7 @@ void	*monitor(void *arg)
 			pthread_mutex_unlock(&table->stop_mutex);
 			return (NULL);
 		}
-		usleep(1000);
+		usleep(200);
 	}
 	return (NULL);
 }

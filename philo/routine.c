@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:26:00 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/23 17:36:02 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:13:51 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,57 +14,81 @@
 
 #include "philo.h"
 
-void	take_forks(t_philo *philo)
+bool	take_forks(t_philo *philo)
 {
+	print_action(philo, "entrei");
 	if (philo->id % 2 == 0)
 	{
-		pthread_mutex_lock(philo->left_fork);
+		if (check_stop_condition(philo))
+			return (false);
+		if (pthread_mutex_lock(philo->left_fork) != 0)
+			return (false);
 		print_action(philo, "has taken left fork");
-		pthread_mutex_lock(philo->right_fork);
+		if (check_stop_condition(philo) || pthread_mutex_lock(philo->right_fork) != 0)
+		{
+			pthread_mutex_unlock(philo->left_fork);
+			return (false);
+		}
 		print_action(philo, "has taken right fork");
 	}
 	else
 	{
-		pthread_mutex_lock(philo->right_fork);
+		if (check_stop_condition(philo) || pthread_mutex_lock(philo->right_fork) != 0)
+			return (false);
 		print_action(philo, "has taken right fork");
-		pthread_mutex_lock(philo->left_fork);
+		if (check_stop_condition(philo) || pthread_mutex_lock(philo->left_fork) != 0)
+		{
+			pthread_mutex_unlock(philo->right_fork);
+			return (false);
+		}
 		print_action(philo, "has taken left fork");
 	}
+	print_action(philo, "saiu");
+	return (true);
 }
 
 void	eat(t_philo *philo)
 {
+	long	start_time;
+
+
+	if (check_stop_condition(philo))
+		return ;
 	print_action(philo, "is eating");
 	pthread_mutex_lock(&philo->meal_mutex);
 	philo->last_meal = get_time_ms();
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->meal_mutex);
-	usleep(philo->table->time_to_eat * 1000);
+	start_time = get_time_ms();
+	while (!check_stop_condition(philo) && get_time_ms() - start_time < philo->table->time_to_eat)
+		usleep(200);
 }
 
 void	drop_forks(t_philo *philo)
 {
-	// if (philo->id % 2 == 0)
-	// {
-		pthread_mutex_unlock(philo->left_fork);
-		print_action(philo, "has dropped right fork");
-		pthread_mutex_unlock(philo->right_fork);
-		print_action(philo, "has dropped left fork");
-	// }
-	// else
-	// {
-	// 	pthread_mutex_unlock(philo->right_fork);
-	// 	print_action(philo, "has dropped right fork");
-	// 	pthread_mutex_unlock(philo->left_fork);
-	// 	print_action(philo, "has dropped left fork");
-	// }
+	pthread_mutex_unlock(philo->left_fork);
+	print_action(philo, "has dropped right fork");
+	pthread_mutex_unlock(philo->right_fork);
+	print_action(philo, "has dropped left fork");
 }
 
 void	sleep_think(t_philo *philo)
 {
+	long	start_time;
+
+	if (check_stop_condition(philo))
+		return ;
 	print_action(philo, "is sleeping");
-	usleep(philo->table->time_to_sleep * 1000);
+	start_time = get_time_ms();
+	while (!check_stop_condition(philo) && get_time_ms() - start_time < philo->table->time_to_sleep)
+		usleep(200);
+	if (check_stop_condition(philo))
+		return ;
 	print_action(philo, "is thinking");
+	start_time = get_time_ms();
+	while (!check_stop_condition(philo) && get_time_ms() - start_time < philo->table->time_to_think)
+		usleep(200);
+	print_action(philo, "saida");
 }
 
 void	*philo_routine(void *arg)
@@ -79,18 +103,21 @@ void	*philo_routine(void *arg)
 		print_action(philo, "died");
 		return (NULL);
 	}
-	// if (philo->id % 2 == 0)
-	// 	usleep (philo->table->time_to_eat * 500);
 	while (!check_stop_condition(philo))
 	{
-		take_forks(philo);
-		if (check_stop_condition(philo))
-			break;
-		eat(philo);
-		if (check_stop_condition(philo))
-			break;
-		drop_forks(philo);
-		sleep_think(philo);
+		if (take_forks(philo))
+		{
+			if (check_stop_condition(philo))
+			{
+				drop_forks(philo);
+				break;
+			}
+			eat(philo);
+			drop_forks(philo);
+			if (check_stop_condition(philo))
+				break;
+			sleep_think(philo);
+		}
 	}
 	return (NULL);
 }

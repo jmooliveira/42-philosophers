@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:04 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/20 15:41:08 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:27:26 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ void	join_thread(t_table *table, t_philo *philos)
 		i++;
 	}
 }
+void	ft_free(t_table **table)
+{
+	free(*table);
+	exit(EXIT_ERROR);
+}
 
 int	main(int argc, char **argv)
 {
@@ -52,7 +57,7 @@ int	main(int argc, char **argv)
 
 	table = ft_calloc(1, sizeof(t_table));
 	if (!validate_args(argc, argv))
-		exit (EXIT_ERROR);
+		ft_free(&table);
 	philos = NULL;
 	init_table(table, argv);
 	if (!init_forks(table) || !init_philos(&philos, table))
@@ -61,14 +66,16 @@ int	main(int argc, char **argv)
 		free_and_close(table, philos);
 		exit (INIT_ERROR);
 	}
+	pthread_create(&monitor_thread, NULL, monitor, philos);
 	if (!start_threads(philos, table))
 	{
 		free_and_close(table, philos);
 		exit (INIT_ERROR);
 	}
-	pthread_create(&monitor_thread, NULL, monitor, philos);
-	pthread_join(monitor_thread, NULL);
 	join_thread(table, philos);
+	pthread_join(monitor_thread, NULL);
+	for(int i = 0; i < table->number_philos; i++)
+		printf("%d %d\n", table->philos[i].meals_eaten, table->philos[i].id);
 	free_and_close(table, philos);
 	exit(0);
 }

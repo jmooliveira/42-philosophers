@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:38:57 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/20 16:49:38 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/26 13:49:37 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_table
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
+	int				time_to_think;
 	long			start_time;
 	bool			stop;
 	int				number_meals;
@@ -80,7 +81,7 @@ long	get_time_ms(void);
 
 // routine.c
 void	*philo_routine(void *arg);
-void	take_forks(t_philo *philo);
+bool	take_forks(t_philo *philo);
 void	eat(t_philo *philo);
 void	drop_forks(t_philo *philo);
 void	sleep_think(t_philo *philo);

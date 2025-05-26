@@ -3,7 +3,6 @@ NAME	=	philo
 CC		=	cc
 CFLAGS	=	-Wall -Werror -Wextra
 
-# SRC_DIR	=	philo
 OBJ_DIR	=	objcs
 
 SRCS	=	philo.c \
@@ -34,9 +33,9 @@ fclean: clean
 
 re: fclean all
 
-# ARGS ?= 5 800 200 200
+ARGS ?= 5 800 200 200000000000000000000000000000000000000000
 
 val:
-	@valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-origins=yes --track-fds=yes ./$(NAME) $(ARGS)
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) $(ARGS)
 
 .PHONY: all clean fclean re
