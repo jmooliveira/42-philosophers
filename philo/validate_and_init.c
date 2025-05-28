@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:23 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/26 16:56:35 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:20:22 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,15 @@ void	init_table(t_table *table, char **argv)
 		table->number_meals = ft_atol(argv[5]);
 	else
 		table->number_meals = -1;
-	if (table->time_to_die - (table->time_to_eat + table->time_to_sleep) - 1 < 0)
+	if (table->time_to_die - (table->time_to_eat + table->time_to_sleep)
+		- 1 < 0)
 		table->time_to_think = 0;
-	else if (table->time_to_die - (table->time_to_eat + table->time_to_sleep) - 1 == 0)
+	else if (table->time_to_die - (table->time_to_eat + table->time_to_sleep)
+		- 1 == 0)
 		table->time_to_think = 1;
 	else
-		table->time_to_think = table->time_to_die - (table->time_to_eat + table->time_to_sleep) - 1;
+		table->time_to_think = table->time_to_die - (table->time_to_eat
+				+ table->time_to_sleep) - 1;
 	pthread_mutex_init(&table->print_lock, NULL);
 	pthread_mutex_init(&table->stop_mutex, NULL);
 }

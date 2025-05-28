@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:04 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/26 15:27:26 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:11:26 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,6 @@ void	join_thread(t_table *table, t_philo *philos)
 		i++;
 	}
 }
-void	ft_free(t_table **table)
-{
-	free(*table);
-	exit(EXIT_ERROR);
-}
 
 int	main(int argc, char **argv)
 {
@@ -74,8 +69,6 @@ int	main(int argc, char **argv)
 	}
 	join_thread(table, philos);
 	pthread_join(monitor_thread, NULL);
-	for(int i = 0; i < table->number_philos; i++)
-		printf("%d %d\n", table->philos[i].meals_eaten, table->philos[i].id);
 	free_and_close(table, philos);
 	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 19:45:41 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/16 16:11:15 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:00:48 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,10 @@ void	free_and_close(t_table *table, t_philo *philos)
 	}
 	if (philos)
 		free(philos);
+}
+
+void	ft_free(t_table **table)
+{
+	free(*table);
+	exit(EXIT_ERROR);
 }

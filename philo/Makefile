@@ -33,7 +33,7 @@ fclean: clean
 
 re: fclean all
 
-ARGS ?= 5 800 200 200000000000000000000000000000000000000000
+ARGS ?= 5 800 200 200
 
 val:
 	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) $(ARGS)
