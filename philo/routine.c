@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:26:00 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/26 17:24:25 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:58:11 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,35 +17,9 @@
 bool	take_forks(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
-	{
-		if (check_stop_condition(philo))
-			return (false);
-		if (pthread_mutex_lock(philo->left_fork) != 0)
-			return (false);
-		print_action(philo, "has taken left fork");
-		if (check_stop_condition(philo)
-			|| pthread_mutex_lock(philo->right_fork) != 0)
-		{
-			pthread_mutex_unlock(philo->left_fork);
-			return (false);
-		}
-		print_action(philo, "has taken right fork");
-	}
+		return (take_fork_even(philo));
 	else
-	{
-		if (check_stop_condition(philo)
-			|| pthread_mutex_lock(philo->right_fork) != 0)
-			return (false);
-		print_action(philo, "has taken right fork");
-		if (check_stop_condition(philo)
-			|| pthread_mutex_lock(philo->left_fork) != 0)
-		{
-			pthread_mutex_unlock(philo->right_fork);
-			return (false);
-		}
-		print_action(philo, "has taken left fork");
-	}
-	return (true);
+		return (take_fork_odd(philo));
 }
 
 void	eat(t_philo *philo)
@@ -104,21 +78,6 @@ void	*philo_routine(void *arg)
 		print_action(philo, "died");
 		return (NULL);
 	}
-	while (!check_stop_condition(philo))
-	{
-		if (take_forks(philo))
-		{
-			if (check_stop_condition(philo))
-			{
-				drop_forks(philo);
-				break ;
-			}
-			eat(philo);
-			drop_forks(philo);
-			if (check_stop_condition(philo))
-				break ;
-			sleep_think(philo);
-		}
-	}
+	philo_loop(philo);
 	return (NULL);
 }

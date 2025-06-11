@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:38:57 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/26 17:01:31 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:45:16 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,14 @@ void	join_thread(t_table *table, t_philo *philos);
 void	*monitor(void *arg);
 void	died(t_table *table, t_philo *philos, long time_now, int i);
 bool	check_stop_condition(t_philo *philo);
-void	print_action(t_philo *philo, char *msg);
+bool	monitor_philos(t_table *table, t_philo *philos);
+
+// monitor_utils.c
 long	get_time_ms(void);
+void	print_action(t_philo *philo, char *msg);
+bool	check_philo_death(t_philo *philo, t_table *table,
+			long time_now, int index);
+bool	all_philos_ate(t_table *table, t_philo *philos);
 
 // routine.c
 void	*philo_routine(void *arg);
@@ -85,6 +91,11 @@ bool	take_forks(t_philo *philo);
 void	eat(t_philo *philo);
 void	drop_forks(t_philo *philo);
 void	sleep_think(t_philo *philo);
+
+//routine_utils.c
+void	philo_loop(t_philo *philo);
+bool	take_fork_even(t_philo *philo);
+bool	take_fork_odd(t_philo *philo);
 
 // free.c
 void	free_and_close(t_table *table, t_philo *philos);

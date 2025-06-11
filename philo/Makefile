@@ -10,7 +10,9 @@ SRCS	=	philo.c \
 			utils.c \
 			free_and_close.c \
 			monitor.c \
+			monitor_utils.c \
 			routine.c \
+			routine_utils.c \
 
 OBJS	=	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
