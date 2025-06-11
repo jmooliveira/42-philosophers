@@ -6,7 +6,7 @@
 /*   By: jemorais <jemorais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:39:23 by jemorais          #+#    #+#             */
-/*   Updated: 2025/05/26 17:20:22 by jemorais         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:55:33 by jemorais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,14 @@ bool	validate_args(int argc, char **argv)
 		printf("time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
 		return (false);
 	}
+	if (ft_atol(argv[1]) > 200)
+	{
+		printf("Error\nNumber of philosophers must be less than 200.\n");
+		return (false);
+	}
 	if (!check_args(argv))
 	{
-		printf("Error\nArguments must be positive integers greather than 0\n");
+		printf("Error\nArguments must be positive integers <= INT_MAX\n");
 		return (false);
 	}
 	return (true);
